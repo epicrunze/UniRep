@@ -443,13 +443,14 @@ class babbler1900():
             )
 
         final_cell, final_hidden = final_state_
-        # Drop the batch dimension so it is just seq len by
-        # representation size
+
         final_cell = final_cell
         final_hidden = final_hidden
         hs = hs
         avg_hidden = np.mean(hs, axis=1)
         
+        #stack them vertically
+
         return np.vstack((avg_hidden, final_hidden, final_cell))
 
     def get_babble(self, seed, length=250, temp=1):
