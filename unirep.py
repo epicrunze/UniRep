@@ -421,39 +421,6 @@ class babbler1900():
         avg_hidden = np.mean(hs, axis=0)
         return avg_hidden, final_hidden, final_cell
 
-    def seqs_to_vecs(self, seqs):
-        '''takes in a list of n strings of proteins: ["MRHKDESTNQCUGPAVIFYWLO"] and generates a numpy array that's (n, unirep_size, 3)
-        will consist of avg_hidden, final_hidden, final_cell, in that order, from top to bottom'''
-
-        num_seqs = len(seqs)
-
-        with tf.Session() as sess:
-            initialize_uninitialized(sess)
-            int_seq_list = []
-            for seq in seqs:
-                # Strip any whitespace and convert to integers with the correct coding
-                int_seq_list.append(aa_seq_to_int(seq.strip())[:-1])
-                
-                # Final state is a cell_state, hidden_state tuple. Output is
-                # all hidden states
-            print(int_seq_list)
-            int_seq_list = np.array(int_seq_list)
-            print(int_seq_list.shape)
-            print(int_seq_list)
-            final_state_, hs = sess.run(
-                [self._final_state, self._output], feed_dict={
-                    self._batch_size_placeholder: num_seqs,
-                    self._minibatch_x_placeholder: int_seq_list,
-                    self._initial_state_placeholder: self._zero_state}
-            )
-
-        final_cell, final_hidden = final_state_
-
-        avg_hidden = np.mean(hs, axis=1)
-        
-        #stack them vertically
-
-        return np.vstack((avg_hidden, final_hidden, final_cell))
 
     def get_babble(self, seed, length=250, temp=1):
         """
