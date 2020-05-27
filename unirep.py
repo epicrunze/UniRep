@@ -433,8 +433,10 @@ class babbler1900():
             for seq in seqs:
                 # Strip any whitespace and convert to integers with the correct coding
                 int_seq_list.append(aa_seq_to_int(seq.strip())[:-1])
+                
                 # Final state is a cell_state, hidden_state tuple. Output is
                 # all hidden states
+            int_seq_list = np.array(int_seq_list)
             final_state_, hs = sess.run(
                 [self._final_state, self._output], feed_dict={
                     self._batch_size_placeholder: num_seqs,
