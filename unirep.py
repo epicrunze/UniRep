@@ -444,9 +444,6 @@ class babbler1900():
 
         final_cell, final_hidden = final_state_
 
-        final_cell = final_cell
-        final_hidden = final_hidden
-        hs = hs
         avg_hidden = np.mean(hs, axis=1)
         
         #stack them vertically
