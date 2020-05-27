@@ -436,6 +436,7 @@ class babbler1900():
                 
                 # Final state is a cell_state, hidden_state tuple. Output is
                 # all hidden states
+            print(int_seq_list)
             int_seq_list = np.array(int_seq_list)
             print(int_seq_list.shape)
             print(int_seq_list)
