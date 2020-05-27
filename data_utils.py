@@ -134,7 +134,7 @@ def fasta_to_input_format(source, destination):
     # Should go line by line so everything is not loaded into memory
     
     sourcefile = os.path.join(source)
-    destination = os.path.join(destiation)
+    destination = os.path.join(destination)
     with open(sourcefile, 'r') as f:
         with open(destination, 'w') as dest:
             seq = ""
@@ -173,7 +173,7 @@ def bucketbatchpad(
     
     path_to_data = os.path.join(path_to_data)
     # Parse strings to tensors
-    dataset = tf.contrib.data.TextLineDataset(path_to_data).map(tf_seq_to_tensor)
+    dataset = tf.data.TextLineDataset(path_to_data).map(tf_seq_to_tensor)
     if filt is not None:
         dataset = dataset.filter(filt)
 
