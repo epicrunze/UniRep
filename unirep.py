@@ -392,34 +392,39 @@ class babbler1900():
             self._single_zero = sess.run(single_zero)
 
      
-    def get_rep(self,seq):
+    def get_rep(self, seqs):
         """
         Input a valid amino acid sequence, 
         outputs a tuple of average hidden, final hidden, final cell representation arrays.
         Unfortunately, this method accepts one sequence at a time and is as such quite
         slow.
         """
+        rep_list = []
         with tf.Session() as sess:
             initialize_uninitialized(sess)
             # Strip any whitespace and convert to integers with the correct coding
-            int_seq = aa_seq_to_int(seq.strip())[:-1]
-            # Final state is a cell_state, hidden_state tuple. Output is
-            # all hidden states
-            final_state_, hs = sess.run(
-                [self._final_state, self._output], feed_dict={
-                    self._batch_size_placeholder: 1,
-                    self._minibatch_x_placeholder: [int_seq],
-                    self._initial_state_placeholder: self._zero_state}
-            )
+            for seq in seqs:
+                int_seq = aa_seq_to_int(seq.strip())[:-1]
+                # Final state is a cell_state, hidden_state tuple. Output is
+                # all hidden states
 
-        final_cell, final_hidden = final_state_
-        # Drop the batch dimension so it is just seq len by
-        # representation size
-        final_cell = final_cell[0]
-        final_hidden = final_hidden[0]
-        hs = hs[0]
-        avg_hidden = np.mean(hs, axis=0)
-        return avg_hidden, final_hidden, final_cell
+                final_state_, hs = sess.run(
+                    [self._final_state, self._output], feed_dict={
+                        self._batch_size_placeholder: 1,
+                        self._minibatch_x_placeholder: [int_seq],
+                        self._initial_state_placeholder: self._zero_state}
+                )
+
+                final_cell, final_hidden = final_state_
+                # Drop the batch dimension so it is just seq len by
+                # representation size
+                final_cell = final_cell[0]
+                final_hidden = final_hidden[0]
+                hs = hs[0]
+                avg_hidden = np.mean(hs, axis=0)
+
+                rep_list.append(np.vstack(avg_hidden, final_hidden, final_cell))
+        return rep_list
 
 
     def get_babble(self, seed, length=250, temp=1):
