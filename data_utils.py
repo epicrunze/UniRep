@@ -173,7 +173,7 @@ def bucketbatchpad(
     
     path_to_data = os.path.join(path_to_data)
     # Parse strings to tensors
-    dataset = tf.data.Dataset.TextLineDataset(path_to_data).map(tf_seq_to_tensor)
+    dataset = tf.data.TextLineDataset(path_to_data).map(tf_seq_to_tensor)
     if filt is not None:
         dataset = dataset.filter(filt)
 
