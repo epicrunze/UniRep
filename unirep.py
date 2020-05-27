@@ -423,7 +423,7 @@ class babbler1900():
                 hs = hs[0]
                 avg_hidden = np.mean(hs, axis=0)
 
-                rep_list.append(np.vstack(avg_hidden, final_hidden, final_cell))
+                rep_list.append(np.vstack((avg_hidden, final_hidden, final_cell)))
         return rep_list
 
 
