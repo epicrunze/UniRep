@@ -438,6 +438,7 @@ class babbler1900():
                 # all hidden states
             int_seq_list = np.array(int_seq_list)
             print(int_seq_list.shape)
+            print(int_seq_list)
             final_state_, hs = sess.run(
                 [self._final_state, self._output], feed_dict={
                     self._batch_size_placeholder: num_seqs,
